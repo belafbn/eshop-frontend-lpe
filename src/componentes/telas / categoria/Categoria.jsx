@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CategoriaContext  from "./CategoriaContext";
 import { getCategoriasAPI, getCategoriasPorCodigoAPI, deleteCategoriasPorCodigoAPI, cadastrarCategoriaAPI } from "../../../servicos/CategoriaServico";
 import Tabela from "./Tabela";
+import Carregando from "./Carregando";
 
 function Categoria(){
 
@@ -9,6 +10,7 @@ function Categoria(){
     const [listaObjetos, setListaObjetos] = useState([]);
     const [editar, setEditar] = useState(false);
     const [objeto, setObjeto] = useState({codigo: "", nome: ""})
+    const [carregando, setCarregando] = useState(true);
 
     const novoObjeto = () => {
         setEditar(false);
@@ -44,7 +46,9 @@ function Categoria(){
     }
 
     const recuperaCategorias = async () => {
+        setCarregando(true)
         setListaObjetos(await getCategoriasAPI())
+        setCarregando(false)
     }
 
     const remover = async codigo =>{
@@ -63,7 +67,9 @@ function Categoria(){
         <CategoriaContext.Provider value={{
             alerta, listaObjetos, remover, objeto, editar, handleChange, novoObjeto, acaoCadastrar, editarObjeto
         }}>
-            <Tabela/>
+            <Carregando carregando={carregando}>
+                <Tabela/>
+            </Carregando>
             
         </CategoriaContext.Provider>
     )
