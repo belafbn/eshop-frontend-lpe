@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import CategoriaContext  from "./CategoriaContext";
 import { getCategoriasAPI, getCategoriasPorCodigoAPI, deleteCategoriasPorCodigoAPI, cadastrarCategoriaAPI } from "../../../servicos/CategoriaServico";
 import Tabela from "./Tabela";
-import Carregando from "./Carregando";
+import Carregando from "../../comuns/Carregando";
+import Form from "./Form";
 
 function Categoria(){
 
@@ -27,7 +28,7 @@ function Categoria(){
         e.preventDefault();
         let metodo = editar? "PUT" : "POST";
         try{
-            let retornoAPI = await cadastrarCategoriaAPI(objeto, metodo);
+            let retornoAPI = await cadastrarCategoriaAPI(metodo, objeto);
             setAlerta ({status: retornoAPI.status, message: retornoAPI.message});
             setObjeto(retornoAPI.objeto);
             if(!editar){
@@ -70,6 +71,7 @@ function Categoria(){
             <Carregando carregando={carregando}>
                 <Tabela/>
             </Carregando>
+            <Form/>
             
         </CategoriaContext.Provider>
     )
