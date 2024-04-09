@@ -5,7 +5,7 @@ import Form from './Form';
 import { getCategoriasAPI } from '../../../../servicos/CategoriaServico';
 import { getProdutosAPI, getProdutoPorCodigoAPI, deleteProdutoPorCodigoAPI, cadastraProdutoAPI } from '../../../../servicos/ProdutoServico'
 import Carregando from '../../../comuns/Carregando';
-import WithAuth from "../../../seguranca/WithAuth";
+import WithAuth from '../../../../seguranca/WithAuth';
 
 function Produto() {
 

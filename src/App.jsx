@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Categoria from "./componentes/telas/categoria/Categoria";
 import Produto from "./componentes/telas/categoria/produto/Produto";
+import Login from "./componentes/login/Login";
 const router  = createBrowserRouter([
   {
     path: "/",

@@ -4,8 +4,7 @@ import { getCategoriasAPI, getCategoriasPorCodigoAPI, deleteCategoriasPorCodigoA
 import Tabela from "./Tabela";
 import Carregando from "../../comuns/Carregando";
 import Form from "./Form";
-import WithAuth
- from "../../../seguranca/WithAuth";
+import WithAuth from "../../../seguranca/WithAuth";
 function Categoria(){
 
     const [alerta, setAlerta] = useState ({ status : "", message: ""});
