@@ -6,20 +6,23 @@ import { getCategoriasAPI } from '../../../../servicos/CategoriaServico';
 import { getProdutosAPI, getProdutoPorCodigoAPI, deleteProdutoPorCodigoAPI, cadastraProdutoAPI } from '../../../../servicos/ProdutoServico'
 import Carregando from '../../../comuns/Carregando';
 import WithAuth from '../../../../seguranca/WithAuth';
+import { useNavigate } from "react-router-dom";
 
 function Produto() {
 
+
+    let navigate = useNavigate();
     const [alerta, setAlerta] = useState({ status: "", message: "" });
     const [listaObjetos, setListaObjetos] = useState([]);
     const [listaCategorias, setListaCategorias] = useState([]);
     const [editar, setEditar] = useState(false);
-	const [objeto, setObjeto] = useState({
+    const [objeto, setObjeto] = useState({
         codigo: 0,
         nome: "",
         descricao: "",
-		quantidade_estoque: "",
-		valor: "",
-		ativo: "",
+        quantidade_estoque: "",
+        valor: "",
+        ativo: "",
         data_cadastro: new Date().toISOString().slice(0, 10),
         categoria: ""
     })
@@ -41,9 +44,15 @@ function Produto() {
     }
 
     const editarObjeto = async codigo => {
-        setObjeto(await getProdutoPorCodigoAPI(codigo))
-        setEditar(true);
-        setAlerta({ status: "", message: "" });
+        try {
+            setObjeto(await getProdutoPorCodigoAPI(codigo))
+            setEditar(true);
+            setAlerta({ status: "", message: "" });
+
+        } catch (err) {
+            window.location.reload()
+            navigate("/login", { replace: true })
+        }
     }
 
     const acaoCadastrar = async e => {
@@ -57,7 +66,8 @@ function Produto() {
                 setEditar(true);
             }
         } catch (err) {
-            console.error(err.message);
+            window.location.reload()
+            navigate("/login", { replace: true })
         }
         recuperaProdutos();
     }
@@ -69,9 +79,14 @@ function Produto() {
     }
 
     const recuperaProdutos = async () => {
-        setCarregando(true);
-        setListaObjetos(await getProdutosAPI());
-        setCarregando(false);
+        try {
+            setCarregando(true);
+            setListaObjetos(await getProdutosAPI());
+            setCarregando(false);
+        } catch (err) {
+            window.location.reload()
+            navigate("/login", { replace: true })
+        }
     }
 
     const recuperaCategorias = async () => {
@@ -79,10 +94,15 @@ function Produto() {
     }
 
     const remover = async codigo => {
-        if (window.confirm('Deseja remover este objeto?')) {
-            let retornoAPI = await deleteProdutoPorCodigoAPI(codigo);
-            setAlerta({ status: retornoAPI.status, message: retornoAPI.message })
-            recuperaProdutos();
+        try {
+            if (window.confirm('Deseja remover este objeto?')) {
+                let retornoAPI = await deleteProdutoPorCodigoAPI(codigo);
+                setAlerta({ status: retornoAPI.status, message: retornoAPI.message })
+                recuperaProdutos();
+            }
+        } catch (err) {
+            window.location.reload()
+            navigate("/login", { replace: true })
         }
     }
 

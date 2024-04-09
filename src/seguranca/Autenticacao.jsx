@@ -1,54 +1,54 @@
 import { jwtDecode } from "jwt-decode";
- const NOMEAPP = 'eshoplpe';
+const NOMEAPP = 'eshoplpe';
 
- export const getToken = () => {
+export const getToken = () => {
     const localStorageAutenticacao = localStorage.getItem(NOMEAPP + '/autenticacao');
-    const autenticacao = localStorageAutenticacao ? 
-                                                JSON.parse(localStorageAutenticacao) :
-                                                null;
-    if (autenticacao === null){
+    const autenticacao = localStorageAutenticacao ?
+        JSON.parse(localStorageAutenticacao) :
+        null;
+    if (autenticacao === null) {
         return null;
     }
-    if(autenticacao.auth == false){
+    if (autenticacao.auth == false) {
         return null;
-    }else{
+    } else {
         let decoded = jwtDecode(autenticacao.token);
-        if (decoded.exp <= Math.floor(new Date()/100)){
+        if (decoded.exp <= Math.floor(new Date() / 1000)) {
             console.log('Token expirado');
             logout();
-            throw "Token expirado";
-        }else{
+            throw "Token expirado getToken";
+        } else {
             return autenticacao.token;
         }
     }
- }
- export const getUsuario = () => {
+}
+export const getUsuario = () => {
     const localStorageAutenticacao = localStorage.getItem(NOMEAPP + '/autenticacao');
-    const autenticacao = localStorageAutenticacao ? 
-                                                JSON.parse(localStorageAutenticacao) :
-                                                null;
-    if (autenticacao === null){
+    const autenticacao = localStorageAutenticacao ?
+        JSON.parse(localStorageAutenticacao) :
+        null;
+    if (autenticacao === null) {
         return null;
     }
-    if(autenticacao.auth == false){
+    if (autenticacao.auth == false) {
         return null;
-    }else{
+    } else {
         let decoded = jwtDecode(autenticacao.token);
-        if (decoded.exp <= Math.floor(new Date()/100)){
-            console.log('Token expirado');
+        if (decoded.exp <= Math.floor(new Date() / 1000)) {
+            console.log('Token expirado get Usuario');
             logout();
-            throw "Token expirado";
-        }else{
+            throw "Token expirado getUsuario";
+        } else {
             return decoded.usuario;
         }
     }
- }
- export const gravaAutenticacao = (json) => {
+}
+export const gravaAutenticacao = (json) => {
     localStorage.setItem(NOMEAPP + '/autenticacao', JSON.stringify(json));
- }
- 
- export const  logout = () =>{
+}
+
+export const logout = () => {
     localStorage.setItem(NOMEAPP + '/autenticacao', JSON.stringify(
-        {"auth":false, "token":""}
+        { "auth": false, "token": "" }
     ));
- }
+}
